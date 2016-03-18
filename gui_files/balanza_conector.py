@@ -91,8 +91,8 @@ class SIO_Conector_de_Balanza:
         self.Label2.configure(text='''ESTADO:''')
 
         self.estado_conexion_msg = Message(self.Frame1)
-        self.estado_conexion_msg.place(relx=0.78, rely=0.09, relheight=0.37
-                , relwidth=0.19)
+        self.estado_conexion_msg.place(relx=0.78, rely=0.08, relheight=0.37
+                , relwidth=0.20)
         self.estado_conexion_msg.configure(foreground="#ee0809")
         self.estado_conexion_msg.configure(text='''DESCONECTADO''')
         self.estado_conexion_msg.configure(width=101)
