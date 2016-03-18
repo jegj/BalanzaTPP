@@ -6,23 +6,12 @@ import os
 import serial
 import json
 import random
-import sys
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 CONFIG_FILE_PATH = 'config/config.init'
-
-
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
 
 
 class BalanzaHandler(object):
@@ -43,7 +32,8 @@ class BalanzaHandler(object):
     def __init__(self):
         try:
             self._configuracion_ok = False
-            self._archivo_configuracion = resource_path(CONFIG_FILE_PATH)
+            parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            self._archivo_configuracion = os.path.join(parent_dir, CONFIG_FILE_PATH)
             logger.info(self._archivo_configuracion)
             self.status = u'OK'
             self.set_variables_configuracion()
