@@ -115,10 +115,9 @@ class SIO_Conector_de_Balanza:
 
         self.archivo_configuracion_msg = Label(self.Frame1)
         self.archivo_configuracion_msg.place(relx=0.83, rely=0.42, height=19
-                , width=21)
+                , width=60)
         self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
-        self.archivo_configuracion_msg.configure(foreground="#009400")
-        self.archivo_configuracion_msg.configure(text='''OK''')
+        self.archivo_configuracion_msg.configure(text='''-''')
 
         self.Message4 = Message(self.Frame1)
         self.Message4.place(relx=0.51, rely=0.7, relheight=0.2, relwidth=0.3)
@@ -177,7 +176,7 @@ class SIO_Conector_de_Balanza:
         self.archivo_configuracion_msg.configure(foreground="#ff0000")
         self.archivo_configuracion_msg.configure(text='''ERROR''')
         self.add_log_message(
-            'NO SE PUDO PROCESAR EL ARCHIVO config.init. REVISAR EL ARCHIVO Y LA CONFIGURACION ESPECIFCIADA'
+            'NO SE PUDO PROCESAR EL ARCHIVO config.init. REVISAR EL ARCHIVO Y LA CONFIGURACION ESPECIFICADA'
         )
 
     def set_caracter_estabilidad(self, car):

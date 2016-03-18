@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'javier'
 
 import logging
@@ -27,7 +28,8 @@ class BalanzaHandler(object):
     def __init__(self):
         try:
             self._configuracion_ok = False
-            self._archivo_configuracion = os.path.join('./config', 'balanza.init')
+            parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            self._archivo_configuracion = os.path.join(parent_dir, 'config/config.init')
             logger.info(self._archivo_configuracion)
             self.status = u'OK'
             self.set_variables_configuracion()
@@ -50,6 +52,8 @@ class BalanzaHandler(object):
                     self.set_variable(var_str, val_str)
             self._configuracion_ok = True
         except Exception as e:
+            print '==>,', e
+            logger.error(u'ERROR LEYENDO ARCHIVO DE CONFIGURACION')
             self._configuracion_ok = False
 
     def configuracion_correcta(self):
@@ -61,53 +65,56 @@ class BalanzaHandler(object):
     def set_variable(self, index, val):
         if index == 'STBL':
             self._CARACTER_ESTABILIDAD = val
-            logger.info(u'STBL', self._CARACTER_ESTABILIDAD)
+            logger.info(u'STBL: %s', self._CARACTER_ESTABILIDAD)
         elif index == 'COM_PORT':
             self._PUERTO_COM = val
-            logger.info(u'COM_PORT', self._PUERTO_COM)
+            logger.info(u'COM_PORT: %s', self._PUERTO_COM)
         elif index == 'TMOUT':
             self._TIMEOUT = int(val)
-            logger.info(u'TMOUT', self._TIMEOUT)
+            logger.info(u'TMOUT: %s', self._TIMEOUT)
         elif index == 'STOP':
             self._STOPBITS = int(val)
-            logger.info(u'STOP', self._STOPBITS)
+            logger.info(u'STOP: %s', self._STOPBITS)
         elif index == 'BYTESIZE':
             self._BYTESIZE = int(val)
-            logger.info(u'BYTESIZE', self._BYTESIZE)
+            logger.info(u'BYTESIZE: %s', self._BYTESIZE)
         elif index == 'PRODUCTION':
             self._PRODUCTION = int(val)
-            logger.info(u'PRODUCTION', self._PRODUCTION)
+            logger.info(u'PRODUCTION: %s', self._PRODUCTION)
 
     def capturar_peso(self):
+        if self._configuracion_ok:
+            if self._PRODUCTION:
+                cont = 0
+                if self.balanza_handler_instance is None:
+                    self.balanza_handler_instance = serial.Serial(
+                        self._PUERTO_COM,
+                        9600,
+                        timeout=self._TIMEOUT,
+                        parity=serial.PARITY_EVEN,
+                        stopbits=self._STOPBITS,
+                        bytesize=self._BYTESIZE
+                    )
+                str_data = ''
 
-        if self._PRODUCTION:
-            cont = 0
-            if self.balanza_handler_instance is None:
-                self.balanza_handler_instance = serial.Serial(
-                    self._PUERTO_COM,
-                    9600,
-                    timeout=self._TIMEOUT,
-                    parity=serial.PARITY_EVEN,
-                    stopbits=self._STOPBITS,
-                    bytesize=self._BYTESIZE
-                )
-            str_data = ''
-
-            while True:
-                str_data += str(self.balanza_handler_instance.readline())
-                index_s = str_data.rfind(self._CARACTER_ESTABILIDAD)
-                if index_s >= 0:
-                    index_kg = str_data.find('kg', index_s + 1)
-                    if index_kg >= 0:
-                        self.data = str_data[index_s + 2:index_kg]
-                        break
-                else:
-                    cont += 1
-                    if cont == 10000:
-                        self.data = '0'
-                        break
+                while True:
+                    str_data += str(self.balanza_handler_instance.readline())
+                    index_s = str_data.rfind(self._CARACTER_ESTABILIDAD)
+                    if index_s >= 0:
+                        index_kg = str_data.find('kg', index_s + 1)
+                        if index_kg >= 0:
+                            self.data = str_data[index_s + 2:index_kg]
+                            break
+                    else:
+                        cont += 1
+                        if cont == 10000:
+                            self.data = '0'
+                            break
+            else:
+                self.data = random.randint(1, 60000)
         else:
-            self.data = random.randint(1, 60000)
+            self.msg = u'La aplicación de Escritorio no pudo leer el archivo de configuracion config.init'
+            self.status = u'ERROR'
 
         self.balanza_handler_instance = None
 

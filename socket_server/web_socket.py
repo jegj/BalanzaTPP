@@ -58,7 +58,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         logger.info(u'MESANJE RECIBIDO DESDE EL BROWSER')
-        self.main_frame.add_log_message("PETICION DE LA APLICACION WEB...\n")
+        self.main_frame.add_log_message("CALCULANDO PESO POR PETICION DE LA APLICACION WEB...\n")
         self.balanza.process_json_data(message)
         data = self.balanza.format_json_data()
         self.write_message(self.prepare_data(data))

@@ -19,11 +19,15 @@ class BalanzaConectorController(object):
         self.main_frame = main_frame
         self.socket_server = None
         self.stop_threads = EventTh()
-        application = tornado.web.Application([(r'/ws', WSHandler, dict(main_frame=self.main_frame))])
-        application.listen(9090)
+        self.first_time = True
 
     def start_socket_server(self, text_widget):
         logger.info(u'INICIANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
+        if self.first_time:
+            application = tornado.web.Application([(r'/ws', WSHandler, dict(main_frame=self.main_frame))])
+            application.listen(9090)
+            self.first_time = False
+
         if self.socket_server is None:
             self.stop_threads.clear()
             self.socket_server = Server()
