@@ -157,6 +157,7 @@ class SIO_Conector_de_Balanza:
         self.log_mensajes.configure(state=NORMAL)
         self.log_mensajes.insert(INSERT, msg)
         self.log_mensajes.configure(state=DISABLED)
+        self.log_mensajes.see(END)
 
     def establish_connection(self):
         self.estado_conexion_msg.configure(foreground="#008542")

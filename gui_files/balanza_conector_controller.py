@@ -29,6 +29,7 @@ class BalanzaConectorController(object):
             self.socket_server = Server()
             self.socket_server.start()
             self.main_frame.add_log_message("INICIANDO CONEXION CON BALANZA...\n")
+            self.main_frame.add_log_message("INICIE LA APLICACION WEB...\n")
 
     def stop_socket_server(self, text_widget):
         logger.info(u'PARANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
