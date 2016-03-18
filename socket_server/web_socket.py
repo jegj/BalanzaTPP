@@ -42,6 +42,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         logger.info(u'CONEXION ESTABLECIDA CON LA APLICACION DE ESCRITORIO')
         self.main_frame.add_log_message("CONEXION ESTABLECIDA CON LA APLICACION WEB...\n")
         self.write_message('The server says: Hello. Connection was accepted.')
+        self.main_frame.establish_connection()
 
     def on_message(self, message):
         logger.info(u'MESANJE RECIBIDO DESDE EL BROWSER')

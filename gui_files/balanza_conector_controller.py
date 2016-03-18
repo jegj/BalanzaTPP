@@ -44,3 +44,5 @@ class BalanzaConectorController(object):
         if self.socket_server is not None:
             self.stop_socket_server(text_widget)
             self.start_socket_server(text_widget)
+            self.main_frame.add_log_message("=======> REINICIE NAVEGADOR(CTRL +F5)...\n")
+            self.main_frame.lose_connection()

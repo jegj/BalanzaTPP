@@ -158,6 +158,14 @@ class SIO_Conector_de_Balanza:
         self.log_mensajes.insert(INSERT, msg)
         self.log_mensajes.configure(state=DISABLED)
 
+    def establish_connection(self):
+        self.estado_conexion_msg.configure(foreground="#008542")
+        self.estado_conexion_msg.configure(text='''CONECTADO''')
+
+    def lose_connection(self):
+        self.estado_conexion_msg.configure(foreground="#ee0809")
+        self.estado_conexion_msg.configure(text='''DESCONECTADO''')
+
 if __name__ == '__main__':
     vp_start_gui()
 
