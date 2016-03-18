@@ -6,7 +6,7 @@ import os
 import serial
 import json
 import random
-
+import sys
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,8 +32,12 @@ class BalanzaHandler(object):
     def __init__(self):
         try:
             self._configuracion_ok = False
-            parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            self._archivo_configuracion = os.path.join(parent_dir, CONFIG_FILE_PATH)
+            if getattr(sys, 'frozen', False):
+                self._archivo_configuracion = 'config.init'
+            elif __file__:
+                parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                self._archivo_configuracion = os.path.join(parent_dir, CONFIG_FILE_PATH)
+
             logger.info(self._archivo_configuracion)
             self.status = u'OK'
             self.set_variables_configuracion()
