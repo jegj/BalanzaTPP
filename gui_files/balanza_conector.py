@@ -48,7 +48,7 @@ def destroy_SIO_Conector_de_Balanza():
 
 
 def destroy_main_frame(top, text_widget, controller):
-    msg = u"PELIGRO: Al cerrar esta ventana no podra realizar pesajes automaticos con la aplicación web"
+    msg = u"ADVERTENCIA: Al cerrar esta ventana no podra realizar pesajes automaticos con la aplicación web"
     resultado = tkMessageBox.askquestion("Salir", msg, icon='warning')
     if resultado == 'yes':
         controller.stop_socket_server(text_widget)
@@ -100,15 +100,8 @@ class SIO_Conector_de_Balanza:
         self.iniciar_button = Button(self.Frame1)
         self.iniciar_button.place(relx=0.04, rely=0.17, height=27, width=177)
         self.iniciar_button.configure(activebackground="#d9d9d9")
-        # self.iniciar_button.configure(command=controller.start_socket_server)
         self.iniciar_button.configure(command=lambda: controller.start_socket_server(self.log_mensajes))
         self.iniciar_button.configure(text='''Iniciar/Reiniciar''')
-
-        # self.reiniciar_button = Button(self.Frame1)
-        # self.reiniciar_button.place(relx=0.04, rely=0.61, height=27, width=177)
-        # self.reiniciar_button.configure(activebackground="#d9d9d9")
-        # self.reiniciar_button.configure(command=lambda: controller.restart_socket_server(self.log_mensajes))
-        # self.reiniciar_button.configure(text='''Reiniciar''')
 
         self.Message2 = Message(self.Frame1)
         self.Message2.place(relx=0.55, rely=0.26, relheight=0.46, relwidth=0.27)
