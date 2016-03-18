@@ -175,9 +175,11 @@ class SIO_Conector_de_Balanza:
         self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
         self.archivo_configuracion_msg.configure(foreground="#ff0000")
         self.archivo_configuracion_msg.configure(text='''ERROR''')
+
         self.add_log_message(
-            'NO SE PUDO PROCESAR EL ARCHIVO config.init. REVISAR EL ARCHIVO Y LA CONFIGURACION ESPECIFICADA'
+            'NO SE PUDO PROCESAR EL ARCHIVO [config.init]. REVISAR EL ARCHIVO Y LA CONFIGURACION ESPECIFICADA\n'
         )
+        self.lose_connection()
 
     def set_caracter_estabilidad(self, car):
         self.caracter_estabilidad_msg.configure(text=car)

@@ -6,12 +6,14 @@ import os
 import serial
 import json
 import random
+from config.config import CONFIG_FILE_PATH
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 class BalanzaHandler(object):
+
     balanza_handler_instance = None
     status = None
     msg = None
@@ -29,7 +31,7 @@ class BalanzaHandler(object):
         try:
             self._configuracion_ok = False
             parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            self._archivo_configuracion = os.path.join(parent_dir, 'config/config.init')
+            self._archivo_configuracion = os.path.join(parent_dir, CONFIG_FILE_PATH)
             logger.info(self._archivo_configuracion)
             self.status = u'OK'
             self.set_variables_configuracion()
@@ -53,7 +55,7 @@ class BalanzaHandler(object):
             self._configuracion_ok = True
         except Exception as e:
             print '==>,', e
-            logger.error(u'ERROR LEYENDO ARCHIVO DE CONFIGURACION')
+            logger.error(u'ERROR LEYENDO ARCHIVO DE CONFIGURACION %s'. e)
             self._configuracion_ok = False
 
     def configuracion_correcta(self):
