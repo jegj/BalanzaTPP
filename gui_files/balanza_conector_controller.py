@@ -20,6 +20,7 @@ class BalanzaConectorController(object):
         self.socket_server = None
         self.stop_threads = EventTh()
         self.first_time = True
+        self.start_first_time = True
 
     def start_socket_server(self, text_widget):
         logger.info(u'INICIANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
@@ -28,12 +29,17 @@ class BalanzaConectorController(object):
             application.listen(9090)
             self.first_time = False
 
-        if self.socket_server is None:
-            self.stop_threads.clear()
-            self.socket_server = Server()
-            self.socket_server.start()
-            self.main_frame.add_log_message("INICIANDO CONEXION CON BALANZA...\n")
-            self.main_frame.add_log_message("INICIE LA APLICACION WEB...\n")
+        if self.start_first_time:
+            if self.socket_server is None:
+                self.stop_threads.clear()
+                self.socket_server = Server()
+                self.socket_server.start()
+                self.main_frame.add_log_message("INICIANDO CONEXION CON BALANZA...\n")
+                self.main_frame.add_log_message("INICIE LA APLICACION WEB...\n")
+                self.start_first_time = False
+        else:
+            self.start_first_time = True
+            self.restart_socket_server(text_widget)
 
     def stop_socket_server(self, text_widget):
         logger.info(u'PARANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
