@@ -15,6 +15,7 @@ class BalanzaHandler(object):
     status = None
     msg = None
     data = None
+    _configuracion_ok = False
     _archivo_configuracion = None
     _PUERTO_COM = None
     _CARACTER_ESTABILIDAD = None
@@ -25,6 +26,7 @@ class BalanzaHandler(object):
 
     def __init__(self):
         try:
+            self._configuracion_ok = False
             self._archivo_configuracion = os.path.join('./config', 'balanza.init')
             logger.info(self._archivo_configuracion)
             self.status = u'OK'
@@ -39,12 +41,22 @@ class BalanzaHandler(object):
             self.data = None
 
     def set_variables_configuracion(self):
-        with open(self._archivo_configuracion, "r") as archivo:
-            for linea in archivo:
-                tokens = linea.split(' ')
-                var_str = tokens[0].strip()
-                val_str = tokens[1].strip()
-                self.set_variable(var_str, val_str)
+        try:
+            with open(self._archivo_configuracion, "r") as archivo:
+                for linea in archivo:
+                    tokens = linea.split(' ')
+                    var_str = tokens[0].strip()
+                    val_str = tokens[1].strip()
+                    self.set_variable(var_str, val_str)
+            self._configuracion_ok = True
+        except Exception as e:
+            self._configuracion_ok = False
+
+    def configuracion_correcta(self):
+        return self._configuracion_ok
+
+    def get_caracter_estabilidad(self):
+        return self._CARACTER_ESTABILIDAD
 
     def set_variable(self, index, val):
         if index == 'STBL':

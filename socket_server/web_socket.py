@@ -8,7 +8,6 @@ import logging
 from threading import Thread
 from balanza_handler.balanza_handler import BalanzaHandler, json
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -48,6 +47,12 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.main_frame.add_log_message("CONEXION ESTABLECIDA CON LA APLICACION WEB...\n")
         self.main_frame.establish_connection()
         self.balanza = BalanzaHandler()
+        if self.balanza.configuracion_correcta():
+            self.main_frame.configuracion_correcta()
+            self.main_frame.set_caracter_estabilidad(self.balanza.get_caracter_estabilidad())
+        else:
+            self.main_frame.configuracion_incorrecta()
+
         data = self.balanza.format_json_data(first_time=True)
         self.write_message(WSHandler.prepare_data(data))
 
@@ -62,5 +67,3 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         logger.info(u'CONEXION CERRADA')
         self.main_frame.add_log_message("CERRRANDO CONEXION CON LA APLICACION WEB...\n")
         self.main_frame.lose_connection()
-
-

@@ -129,7 +129,7 @@ class SIO_Conector_de_Balanza:
         self.caracter_estabilidad_msg.place(relx=0.81, rely=0.7, height=19
                 , width=36)
         self.caracter_estabilidad_msg.configure(activebackground="#f9f9f9")
-        self.caracter_estabilidad_msg.configure(text='''S''')
+        self.caracter_estabilidad_msg.configure(text='''-''')
 
         self.Frame2 = Frame(top)
         self.Frame2.place(relx=0.03, rely=0.28, relheight=0.65, relwidth=0.95)
@@ -166,6 +166,22 @@ class SIO_Conector_de_Balanza:
     def lose_connection(self):
         self.estado_conexion_msg.configure(foreground="#ee0809")
         self.estado_conexion_msg.configure(text='''DESCONECTADO''')
+
+    def configuracion_correcta(self):
+        self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
+        self.archivo_configuracion_msg.configure(foreground="#009400")
+        self.archivo_configuracion_msg.configure(text='''OK''')
+
+    def configuracion_incorrecta(self):
+        self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
+        self.archivo_configuracion_msg.configure(foreground="#ff0000")
+        self.archivo_configuracion_msg.configure(text='''ERROR''')
+        self.add_log_message(
+            'NO SE PUDO PROCESAR EL ARCHIVO config.init. REVISAR EL ARCHIVO Y LA CONFIGURACION ESPECIFCIADA'
+        )
+
+    def set_caracter_estabilidad(self, car):
+        self.caracter_estabilidad_msg.configure(text=car)
 
 if __name__ == '__main__':
     vp_start_gui()
