@@ -66,7 +66,7 @@ class SIO_Conector_de_Balanza:
         _ana2color = '#d9d9d9' # X11 color: 'gray85' 
 
         top.geometry("566x356+376+183")
-        top.title("SIO: Conector de Balanza")
+        top.title("SIO: Conector de Balanza v1.0.0")
         top.configure(background="#dee1d9")
         top.configure(highlightbackground="#dbd9d9")
         top.configure(highlightcolor="black")
