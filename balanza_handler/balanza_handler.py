@@ -51,6 +51,10 @@ class BalanzaHandler(object):
             self.data = None
 
     def set_variables_configuracion(self):
+        """
+        Metodo que lee el archivo de configuracion e intenta setearlo
+        :return:
+        """
         try:
             with open(self._archivo_configuracion, "r") as archivo:
                 for linea in archivo:
@@ -71,6 +75,12 @@ class BalanzaHandler(object):
         return self._CARACTER_ESTABILIDAD
 
     def set_variable(self, index, val):
+        """
+        Metodo que setea las variables especificadas en el archivo de configuracion
+        :param index:
+        :param val:
+        :return:
+        """
         if index == 'STBL':
             self._CARACTER_ESTABILIDAD = val
             logger.info(u'STBL: %s', self._CARACTER_ESTABILIDAD)
@@ -91,6 +101,10 @@ class BalanzaHandler(object):
             logger.info(u'PRODUCTION: %s', self._PRODUCTION)
 
     def capturar_peso(self):
+        """
+        Metodo que realiza la conexion con el puerto y captura el peso
+        :return:
+        """
         if self._configuracion_ok:
             if self._PRODUCTION:
                 cont = 0
@@ -127,6 +141,11 @@ class BalanzaHandler(object):
         self.balanza_handler_instance = None
 
     def format_json_data(self, first_time=False):
+        """
+        Metodo que prepara la respuesta para la aplicacion web
+        :param first_time:
+        :return:
+        """
         data = {
             'status': self.status,
             'msg': self.msg,
@@ -139,7 +158,13 @@ class BalanzaHandler(object):
         return data
 
     def process_json_data(self, data):
+        """
+        Metodo que recibe la data de la aplicacion web y ejecuta el comando especificado
+        :param data:
+        :return:
+        """
         command = json.loads(data)
+        #   COMANDO PARA CAPTURAR PESO
         if command['order'] == 'WEIGH':
             logger.info(u'CAPTURANDO PESO POR ORDEN DEL APLICACION WEB...')
             self.capturar_peso()

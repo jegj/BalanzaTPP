@@ -23,6 +23,11 @@ class BalanzaConectorController(object):
         self.start_first_time = True
 
     def start_socket_server(self, text_widget):
+        """
+        Metodo que inicia el hilo de ejecucion del servidor web socket
+        :param text_widget:
+        :return:
+        """
         logger.info(u'INICIANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
         if self.first_time:
             application = tornado.web.Application([(r'/ws', WSHandler, dict(main_frame=self.main_frame))])
@@ -42,6 +47,11 @@ class BalanzaConectorController(object):
             self.restart_socket_server(text_widget)
 
     def stop_socket_server(self, text_widget):
+        """
+        Metodo que detiene el hilo de ejecucion del servidor web socket
+        :param text_widget:
+        :return:
+        """
         logger.info(u'PARANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
         if self.socket_server is not None:
             self.stop_threads.set()
@@ -51,6 +61,11 @@ class BalanzaConectorController(object):
             self.main_frame.add_log_message("DETENIENDO CONEXION CON BALANZA...\n")
 
     def restart_socket_server(self, text_widget):
+        """
+        Metodo que reinicia el hilo de ejecucion del servidor web socket
+        :param text_widget:
+        :return:
+        """
         logger.info(u'REINICIANDO HILO DE EJECUCION DE WEB SOCKET SERVER')
         if self.socket_server is not None:
             self.stop_socket_server(text_widget)

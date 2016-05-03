@@ -147,25 +147,48 @@ class SIO_Conector_de_Balanza:
         self.Label1.configure(text='''MENSAJES:''')
 
     def add_log_message(self, msg):
+        """
+        Metodo que agrega mensajes de log al textarea
+        :param msg:
+        :return:
+        """
         self.log_mensajes.configure(state=NORMAL)
         self.log_mensajes.insert(INSERT, msg)
         self.log_mensajes.configure(state=DISABLED)
         self.log_mensajes.see(END)
 
     def establish_connection(self):
+        """
+        Metodo que cambia el estado de la interfaz cuando se conecta con la aplicacion web
+        :return:
+        """
         self.estado_conexion_msg.configure(foreground="#008542")
         self.estado_conexion_msg.configure(text='''CONECTADO''')
 
     def lose_connection(self):
+        """
+        Metodo que cambia el estado de la interfaz cuando se desconecta con la aplicacion web
+        :return:
+        """
         self.estado_conexion_msg.configure(foreground="#ee0809")
         self.estado_conexion_msg.configure(text='''DESCONECTADO''')
 
     def configuracion_correcta(self):
+        """
+        Metodo que cambia el estado de la interfaz cuando existe una configuracion correcta
+        con la aplicacion web
+        :return:
+        """
         self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
         self.archivo_configuracion_msg.configure(foreground="#009400")
         self.archivo_configuracion_msg.configure(text='''OK''')
 
     def configuracion_incorrecta(self):
+        """
+        Metodo que cambia el estado de la interfaz cuando existe una configuracion incorrecta
+        con la aplicacion web
+        :return:
+        """
         self.archivo_configuracion_msg.configure(activebackground="#f9f9f9")
         self.archivo_configuracion_msg.configure(foreground="#ff0000")
         self.archivo_configuracion_msg.configure(text='''ERROR''')
@@ -176,6 +199,11 @@ class SIO_Conector_de_Balanza:
         self.lose_connection()
 
     def set_caracter_estabilidad(self, car):
+        """
+        Metodo que setea el caracter de estabilidad en la interfaz
+        :param car:
+        :return:
+        """
         self.caracter_estabilidad_msg.configure(text=car)
 
 if __name__ == '__main__':
